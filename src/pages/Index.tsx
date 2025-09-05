@@ -6,25 +6,56 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 const Index = () => {
   const [inputValue, setInputValue] = useState('');
-  const sidebarIcons = [{
-    icon: Columns2,
-    label: 'Expandir menu'
-  }, {
-    icon: Plus,
-    label: 'Novo chat'
-  }, {
-    icon: MessageSquareText,
-    label: 'Histórico'
-  }, {
-    icon: FolderCheck,
-    label: 'Projetos'
-  }, {
-    icon: Settings,
-    label: 'Configurações'
-  }, {
-    icon: User,
-    label: 'Perfil'
-  }];
+  const [isSidebarOpen, setSidebarOpen] = useState(false); // Right sidebar visibility
+  const [isMenuExpanded, setMenuExpanded] = useState(false); // Left menu expansion
+
+  // Define the left menu icons with their respective actions
+  const sidebarIcons = [
+    {
+      icon: MessageSquareText,
+      label: 'Chat',
+      onClick: () => {
+        setSidebarOpen(true); // Open the right sidebar
+        setMenuExpanded(true); // Ensure menu is expanded when clicked
+      }
+    },
+    {
+      icon: Plus,
+      label: 'Novo chat',
+      onClick: () => {
+        // TODO: Implement save current chat to archive logic
+        console.log('Iniciar novo chat');
+        setMenuExpanded(true);
+      }
+    },
+    {
+      icon: FolderCheck,
+      label: 'Histórico',
+      onClick: () => {
+        // TODO: Implement archive view logic
+        console.log('Abrir histórico');
+        setMenuExpanded(true);
+      }
+    },
+    {
+      icon: Columns2,
+      label: 'Projetos',
+      onClick: () => {
+        // TODO: Implement projects section logic
+        console.log('Abrir projetos');
+        setMenuExpanded(true);
+      }
+    },
+    {
+      icon: Settings,
+      label: 'Configurações',
+      onClick: () => {
+        // TODO: Implement settings logic
+        console.log('Abrir configurações');
+        setMenuExpanded(true);
+      }
+    }
+  ];
   const notesData = [{
     time: 'Há 5 min.',
     content: 'A análise do fluxo de Onboarding mostra abandono na etapa com a seleção das opções. Hipótese: talvez falte clareza para que o usuário siga as opções. Acho que se repensar a estratégia e reformular a usabilidade com tooltips e toast de apoio pode ajudar.'
@@ -34,24 +65,60 @@ const Index = () => {
   }];
   return <div className="min-h-screen flex bg-white relative">
       {/* Sidebar Esquerda */}
-      <div className="w-[60px] bg-[hsl(var(--smartshelf-blue))] flex flex-col justify-between items-center py-6">
+      <div
+        className={`bg-[hsl(var(--smartshelf-blue))] flex flex-col justify-between py-6 transition-all duration-300 ${
+          isMenuExpanded ? 'w-48 px-4' : 'w-[60px] items-center'
+        }`}
+      >
         {/* Ícones superiores */}
-        <div className="flex flex-col items-center space-y-8">
-          {sidebarIcons.slice(0, -1).map((item, index) => <button key={index} className="text-white hover:opacity-75 transition-opacity duration-200 group relative" title={item.label}>
+        <div
+          className={`flex flex-col space-y-4 ${
+            isMenuExpanded ? 'items-start' : 'items-center'
+          }`}
+        >
+          {sidebarIcons.map((item, index) => (
+            <button
+              key={index}
+              className="text-white hover:opacity-75 transition-opacity duration-200 group flex items-center"
+              title={item.label}
+              onClick={() => {
+                // If menu is collapsed, expand it first
+                if (!isMenuExpanded) setMenuExpanded(true);
+                item.onClick();
+              }}
+            >
               <item.icon size={24} strokeWidth={1.5} />
-            </button>)}
+              {isMenuExpanded && (
+                <span className="ml-3 font-fustat font-normal" style={{ fontSize: '14px' }}>
+                  {item.label}
+                </span>
+              )}
+            </button>
+          ))}
         </div>
-        
-        {/* Ícone User na parte inferior */}
-        <div className="pb-8">
-          <button className="text-white hover:opacity-75 transition-opacity duration-200 group relative" title={sidebarIcons[sidebarIcons.length - 1].label}>
+
+        {/* Perfil/User na parte inferior */}
+        <div className={`${isMenuExpanded ? 'pl-1' : ''} pb-8 flex ${isMenuExpanded ? 'justify-start' : 'justify-center'}`}>
+          <button
+            className="text-white hover:opacity-75 transition-opacity duration-200 group relative flex items-center"
+            title="Perfil"
+            onClick={() => setMenuExpanded(prev => !prev)}
+          >
             <User size={24} strokeWidth={1.5} />
+            {isMenuExpanded && (
+              <span className="ml-3 font-fustat font-normal" style={{ fontSize: '14px' }}>
+                Perfil
+              </span>
+            )}
           </button>
         </div>
       </div>
 
       {/* Área Central */}
-      <div className="flex-1 flex flex-col max-w-[940px] ml-20">
+      <div
+        className="flex-1 flex flex-col max-w-[940px] transition-all duration-300"
+        style={{ marginLeft: isMenuExpanded ? '192px' : '80px' }}
+      >
         {/* Header */}
         <div className="pt-[66px] pl-[8px] pb-[48px]">
           <div className="flex items-center text-[hsl(var(--smartshelf-text))] font-fustat font-light text-[32px]">
@@ -136,34 +203,36 @@ const Index = () => {
       </div>
 
       {/* Painel Lateral Direito */}
-      <div className="w-[460px] bg-[#2F78C4] fixed right-0 top-0 h-screen">
-        {/* Header Notas Rápidas */}
-        <div className="bg-[#2F78C4] text-white px-6 py-4 flex items-center justify-between mt-16">
-          <span className="font-fustat font-light text-2xl">Notas rápidas</span>
-          <ArrowRight size={20} />
-        </div>
+      {isSidebarOpen && (
+        <div className="w-[460px] bg-[#2F78C4] fixed right-0 top-0 h-screen transition-transform duration-300">
+          {/* Header Notas Rápidas */}
+          <div className="bg-[#2F78C4] text-white px-6 py-4 flex items-center justify-between mt-16">
+            <span className="font-fustat font-light text-2xl">Notas rápidas</span>
+            <ArrowRight size={20} className="cursor-pointer" onClick={() => setSidebarOpen(false)} />
+          </div>
 
-        {/* Cards de Nota */}
-        <div className="flex flex-col">
-          {notesData.map((note, index) => <div key={index}>
-              <div className="w-full h-[235px] bg-white p-6 hover:shadow-sm transition-shadow duration-200 cursor-pointer flex flex-col">
-                <div className="font-fustat font-medium mb-4" style={{ fontSize: '15px', color: '#A5A5A5' }}>{note.time}</div>
-                <div className="font-fustat font-normal leading-relaxed flex-1" style={{ fontSize: '16px', color: '#4D4D4D' }}>
-                  {note.content}
+          {/* Cards de Nota */}
+          <div className="flex flex-col">
+            {notesData.map((note, index) => <div key={index}>
+                <div className="w-full h-[235px] bg-white p-6 hover:shadow-sm transition-shadow duration-200 cursor-pointer flex flex-col">
+                  <div className="font-fustat font-medium mb-4" style={{ fontSize: '15px', color: '#A5A5A5' }}>{note.time}</div>
+                  <div className="font-fustat font-normal leading-relaxed flex-1" style={{ fontSize: '16px', color: '#4D4D4D' }}>
+                    {note.content}
+                  </div>
                 </div>
-              </div>
-              {/* Linha divisória horizontal entre cards */}
-              {index < notesData.length - 1 && <div className="h-px bg-white/20"></div>}
-            </div>)}
-        </div>
+                {/* Linha divisória horizontal entre cards */}
+                {index < notesData.length - 1 && <div className="h-px bg-white/20"></div>}
+              </div>)}
+          </div>
 
-        {/* Botão Adicionar Nota - Fixo no Footer */}
-        <div className="fixed bottom-0 right-0 w-[460px] p-4 bg-[#2F78C4]">
-          <Button className="w-full bg-[#2F78C4] hover:bg-[#2F78C4]/90 text-white border-none font-fustat font-normal" style={{ fontSize: '18px' }}>
-            + Adicionar Nota
-          </Button>
+          {/* Botão Adicionar Nota - Fixo no Footer */}
+          <div className="fixed bottom-0 right-0 w-[460px] p-4 bg-[#2F78C4]">
+            <Button className="w-full bg-[#2F78C4] hover:bg-[#2F78C4]/90 text-white border-none font-fustat font-normal" style={{ fontSize: '18px' }}>
+              + Adicionar Nota
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </div>;
 };
 export default Index;
