@@ -4,8 +4,31 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import LoginScreen from "@/components/onboarding/LoginScreen";
+import OnboardingContainer from "@/components/onboarding/OnboardingContainer";
+
+type AppState = "login" | "onboarding" | "main";
 const Index = () => {
+  const [appState, setAppState] = useState<AppState>("login");
   const [inputValue, setInputValue] = useState('');
+
+  const handleLogin = () => {
+    setAppState("onboarding");
+  };
+
+  const handleOnboardingComplete = () => {
+    setAppState("main");
+  };
+
+  if (appState === "login") {
+    return <LoginScreen onLogin={handleLogin} />;
+  }
+
+  if (appState === "onboarding") {
+    return <OnboardingContainer onComplete={handleOnboardingComplete} />;
+  }
+
+  // Main AI Chat Interface
   const sidebarIcons = [{
     icon: Columns2,
     label: 'Expandir menu'
@@ -44,7 +67,11 @@ const Index = () => {
         
         {/* Ícone User na parte inferior */}
         <div className="pb-8">
-          <button className="text-white hover:opacity-75 transition-opacity duration-200 group relative" title={sidebarIcons[sidebarIcons.length - 1].label}>
+          <button 
+            onClick={() => setAppState("login")}
+            className="text-white hover:opacity-75 transition-opacity duration-200 group relative" 
+            title="Sair"
+          >
             <User size={24} strokeWidth={1.5} />
           </button>
         </div>
