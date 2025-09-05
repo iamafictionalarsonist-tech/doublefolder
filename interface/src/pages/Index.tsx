@@ -1,30 +1,58 @@
-import React, { useState } from 'react';
-import { Columns2, Plus, MessageSquareText, FolderCheck, Settings, User, ChevronDown, Copy, ArrowUp, ArrowRight } from 'lucide-react';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Plus, MessageSquareText, Archive, FolderCheck, Settings, User, ChevronDown, Copy, ArrowUp, ArrowRight, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 const Index = () => {
   const [inputValue, setInputValue] = useState('');
-  const sidebarIcons = [{
-    icon: Columns2,
-    label: 'Expandir menu'
+  const [isLeftMenuExpanded, setIsLeftMenuExpanded] = useState(false);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [archivedChats, setArchivedChats] = useState<Array<{ id: number; title: string; createdAt: string }>>([]);
+
+  const sidebarIcons = useMemo(() => ([{
+    key: 'chat',
+    icon: MessageSquareText,
+    label: 'Chat'
   }, {
+    key: 'new',
     icon: Plus,
     label: 'Novo chat'
   }, {
-    icon: MessageSquareText,
-    label: 'Histórico'
+    key: 'archive',
+    icon: Archive,
+    label: 'Arquivo'
   }, {
+    key: 'projects',
     icon: FolderCheck,
     label: 'Projetos'
   }, {
+    key: 'settings',
     icon: Settings,
     label: 'Configurações'
-  }, {
-    icon: User,
-    label: 'Perfil'
-  }];
+  }]), []);
+
+  const handleIconClick = useCallback((key: string) => {
+    setIsLeftMenuExpanded(true);
+    if (key === 'chat') {
+      setIsRightSidebarOpen(true);
+    } else if (key === 'new') {
+      const id = Date.now();
+      const title = 'Chat atual';
+      setArchivedChats(prev => [{ id, title, createdAt: new Date().toLocaleString() }, ...prev]);
+      setInputValue('');
+    } else if (key === 'archive') {
+      setIsArchiveOpen(true);
+    } else if (key === 'projects') {
+      setIsProjectsOpen(true);
+    } else if (key === 'settings') {
+      setIsSettingsOpen(true);
+    }
+  }, []);
   const notesData = [{
     time: 'Há 5 min.',
     content: 'A análise do fluxo de Onboarding mostra abandono na etapa com a seleção das opções. Hipótese: talvez falte clareza para que o usuário siga as opções. Acho que se repensar a estratégia e reformular a usabilidade com tooltips e toast de apoio pode ajudar.'
@@ -34,10 +62,10 @@ const Index = () => {
   }];
   return <div className="min-h-screen flex bg-white relative">
       {/* Sidebar Esquerda */}
-      <div className="w-[60px] bg-[hsl(var(--smartshelf-blue))] flex flex-col justify-between items-center py-6">
+      <div className="w-[60px] bg-[hsl(var(--smartshelf-blue))] flex flex-col justify-between items-center py-6 z-20 relative">
         {/* Ícones superiores */}
         <div className="flex flex-col items-center space-y-8">
-          {sidebarIcons.slice(0, -1).map((item, index) => <button key={index} className="text-white hover:opacity-75 transition-opacity duration-200 group relative" title={item.label}>
+          {sidebarIcons.map((item) => <button key={item.key} onClick={() => handleIconClick(item.key)} className="text-white hover:opacity-75 transition-opacity duration-200 group relative" title={item.label}>
               <item.icon size={24} strokeWidth={1.5} />
             </button>)}
         </div>
@@ -50,8 +78,28 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Painel de expansão do menu esquerdo */}
+      <div className={`fixed left-[60px] top-0 h-screen bg-white shadow-lg transition-transform duration-200 ease-linear z-10 ${isLeftMenuExpanded ? 'translate-x-0' : '-translate-x-full'} w-[220px]`}>
+        <div className="pt-6">
+          <div className="px-4 pb-4 flex items-center justify-between">
+            <span className="text-[hsl(var(--smartshelf-text))] font-fustat">Menu</span>
+            <button className="text-gray-500 hover:text-gray-700" onClick={() => setIsLeftMenuExpanded(false)}>
+              <ChevronLeft size={18} />
+            </button>
+          </div>
+          <div className="flex flex-col">
+            {sidebarIcons.map((item) => (
+              <button key={item.key} onClick={() => handleIconClick(item.key)} className="flex items-center gap-3 py-3 px-4 text-[hsl(var(--smartshelf-text))] hover:bg-[hsl(var(--smartshelf-light-bg))]">
+                <item.icon size={18} />
+                <span className="font-fustat">{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Área Central */}
-      <div className="flex-1 flex flex-col max-w-[940px] ml-20">
+      <div className="flex-1 flex flex-col max-w-[940px] ml-20" onClick={() => isLeftMenuExpanded && setIsLeftMenuExpanded(false)}>
         {/* Header */}
         <div className="pt-[66px] pl-[8px] pb-[48px]">
           <div className="flex items-center text-[hsl(var(--smartshelf-text))] font-fustat font-light text-[32px]">
@@ -136,11 +184,13 @@ const Index = () => {
       </div>
 
       {/* Painel Lateral Direito */}
-      <div className="w-[460px] bg-[#2F78C4] fixed right-0 top-0 h-screen">
+      <div className={`w-[460px] bg-[#2F78C4] fixed right-0 top-0 h-screen transform transition-transform duration-200 ease-linear ${isRightSidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         {/* Header Notas Rápidas */}
         <div className="bg-[#2F78C4] text-white px-6 py-4 flex items-center justify-between mt-16">
           <span className="font-fustat font-light text-2xl">Notas rápidas</span>
-          <ArrowRight size={20} />
+          <button className="text-white/90 hover:text-white" onClick={() => setIsRightSidebarOpen(false)}>
+            <ArrowRight size={20} />
+          </button>
         </div>
 
         {/* Cards de Nota */}
@@ -164,6 +214,49 @@ const Index = () => {
           </Button>
         </div>
       </div>
+
+      {/* Dialog: Arquivo */}
+      <Dialog open={isArchiveOpen} onOpenChange={setIsArchiveOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Chats arquivados</DialogTitle>
+          </DialogHeader>
+          <div className="max-h-[50vh] overflow-auto">
+            {archivedChats.length === 0 ? (
+              <div className="text-sm text-muted-foreground">Nenhum chat arquivado ainda.</div>
+            ) : (
+              <ul className="space-y-2">
+                {archivedChats.map(c => (
+                  <li key={c.id} className="flex items-center justify-between rounded-md border px-3 py-2">
+                    <span className="text-sm">{c.title}</span>
+                    <span className="text-xs text-muted-foreground">{c.createdAt}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog: Projetos */}
+      <Dialog open={isProjectsOpen} onOpenChange={setIsProjectsOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Projetos</DialogTitle>
+          </DialogHeader>
+          <div className="text-sm text-muted-foreground">Seção de gerenciamento de projetos (em breve).</div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog: Configurações */}
+      <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Configurações</DialogTitle>
+          </DialogHeader>
+          <div className="text-sm text-muted-foreground">Painel de configurações do usuário (em breve).</div>
+        </DialogContent>
+      </Dialog>
     </div>;
 };
 export default Index;
