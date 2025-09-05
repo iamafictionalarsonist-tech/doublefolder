@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Columns2, Plus, MessageSquareText, FolderCheck, Settings, User, ChevronDown, Copy, ArrowUp, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useAuth } from '@/lib/auth';
+import { useNavigate } from 'react-router-dom';
 const Index = () => {
+  const { isAuthenticated, hasCompletedOnboarding } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuthenticated) navigate('/login');
+    else if (!hasCompletedOnboarding) navigate('/onboarding');
+  }, [isAuthenticated, hasCompletedOnboarding, navigate]);
   const [inputValue, setInputValue] = useState('');
   const sidebarIcons = [{
     icon: Columns2,
