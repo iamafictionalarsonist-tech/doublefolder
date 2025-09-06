@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartShelf - Organizador Inteligente</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            --smartshelf-blue: #2F78C4;
+            --smartshelf-text: #333333;
+            --smartshelf-light-bg: #F5F5F5;
+            --smartshelf-border: #E6E6E6;
+            --subtitle-gray: #808080;
+            --terms-background: #EFEFEF;
+        }
+
+        .font-fustat {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .text-display {
+            font-size: 82px;
+            line-height: 80px;
+            font-weight: 450;
+        }
+
+        .text-subtitle {
+            font-size: 22px;
+            line-height: 78px;
+            font-weight: 500;
+        }
+
+        .bg-smartshelf-blue {
+            background-color: var(--smartshelf-blue);
+        }
+
+        .text-smartshelf-text {
+            color: var(--smartshelf-text);
+        }
+
+        .bg-smartshelf-light-bg {
+            background-color: var(--smartshelf-light-bg);
+        }
+
+        .text-subtitle-gray {
+            color: var(--subtitle-gray);
+        }
+
+        .bg-terms-background {
+            background-color: var(--terms-background);
+        }
+
+        .login-bg {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjMkY3OEM0Ii8+CjxjaXJjbGUgY3g9IjQwMCIgY3k9IjMwMCIgcj0iMjAwIiBmaWxsPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMSkiLz4KPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTUwIiByPSIxMDAiIGZpbGw9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wNSkiLz4KPGNpcmNsZSBjeD0iNjAwIiBjeT0iNDUwIiByPSIxNTAiIGZpbGw9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wNykiLz4KPC9zdmc+');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .custom-input {
+            width: 360px;
+            height: 60px;
+            font-size: 18px;
+            padding: 0 24px;
+            border-radius: 30px;
+            border: none;
+            outline: none;
+        }
+
+        .custom-button {
+            width: 260px;
+            height: 64px;
+            border-radius: 32px;
+            font-size: 18px;
+            font-weight: 500;
+            background-color: var(--smartshelf-blue);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .custom-button:hover {
+            opacity: 0.9;
+        }
+
+        .chat-input-area {
+            width: 960px;
+            height: 160px;
+            background: #EFEFEF;
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .chat-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 24px;
+            color: #333333;
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+        }
+
+        .chat-input::placeholder {
+            color: #4D4D4D;
+        }
+
+        .send-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--smartshelf-blue);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .sidebar-icon {
+            color: white;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .sidebar-icon:hover {
+            opacity: 0.75;
+        }
+
+        .note-card {
+            width: 100%;
+            height: 235px;
+            background: white;
+            padding: 24px;
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+        }
+
+        .note-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .message-bubble {
+            background-color: var(--smartshelf-light-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--smartshelf-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+        const { 
+            User, 
+            Mail, 
+            Lock, 
+            ArrowRight, 
+            Columns2, 
+            Plus, 
+            MessageSquareText, 
+            FolderCheck, 
+            Settings,
+            ChevronDown,
+            Copy,
+            ArrowUp
+        } = lucide;
+
+        // Login Screen Component
+        function LoginScreen({ onLogin }) {
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (email && password) {
+                    onLogin();
+                }
+            };
+
+            return (
+                <div className="w-screen h-screen flex bg-white font-fustat">
+                    {/* Left side - 50% */}
+                    <div className="w-1/2 h-full flex flex-col justify-center px-20 relative">
+                        <h1 className="text-display text-smartshelf-text mb-7 font-fustat font-normal">
+                            SmartShelf.<br />
+                            Seu organizador<br />
+                            inteligente para<br />
+                            dados pessoais
+                        </h1>
+                        <p className="text-subtitle text-subtitle-gray font-fustat font-medium">
+                            Ferramenta de organização pessoal, com inteligência que te entende
+                        </p>
+                        
+                        {/* Footer message */}
+                        <div className="absolute bottom-8 left-20">
+                            <p className="text-subtitle-gray font-fustat font-medium text-base py-6">
+                                Vibe Coding Week 2025 — Cognizant
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Right side - 50% */}
+                    <div className="w-1/2 h-full flex items-center justify-center login-bg">
+                        <div className="w-full max-w-sm p-8 flex flex-col items-center">
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div className="space-y-2">
+                                    <label htmlFor="email" className="text-white font-fustat font-medium text-base block">
+                                        E-mail ou ID
+                                    </label>
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="custom-input bg-white font-fustat font-medium"
+                                        placeholder="Digite seu e-mail aqui."
+                                        required
+                                    />
+                                </div>
+
+                                <div className="space-y-2 mb-8">
+                                    <label htmlFor="password" className="text-white font-fustat font-medium text-base block">
+                                        Senha
+                                    </label>
+                                    <input
+                                        id="password"
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className="custom-input bg-white font-fustat font-medium"
+                                        placeholder="Digite sua senha aqui."
+                                        required
+                                    />
+                                </div>
+
+                                <div className="space-y-4 flex flex-col items-center mt-8">
+                                    <button type="submit" className="custom-button">
+                                        Entrar →
+                                    </button>
+                                    
+                                    <button type="button" className="text-white hover:text-white/80 font-fustat bg-transparent border-none cursor-pointer">
+                                        Esqueceu sua senha? Clique aqui.
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Simple Onboarding Component (simplified for demo)
+        function OnboardingContainer({ onComplete }) {
+            const [step, setStep] = useState(1);
+
+            const handleNext = () => {
+                if (step < 3) {
+                    setStep(step + 1);
+                } else {
+                    onComplete();
+                }
+            };
+
+            const handleSkip = () => {
+                onComplete();
+            };
+
+            return (
+                <div className="min-h-screen flex items-center justify-center bg-white font-fustat">
+                    <div className="text-center max-w-2xl px-8">
+                        <h1 className="text-6xl font-normal text-smartshelf-text mb-8">
+                            Bem-vindo ao SmartShelf!
+                        </h1>
+                        
+                        <div className="mb-12">
+                            {step === 1 && (
+                                <div>
+                                    <h2 className="text-2xl font-medium mb-4 text-smartshelf-text">
+                                        Vamos configurar seu perfil
+                                    </h2>
+                                    <p className="text-lg text-subtitle-gray mb-8">
+                                        Escolha como você quer usar o SmartShelf
+                                    </p>
+                                </div>
+                            )}
+                            
+                            {step === 2 && (
+                                <div>
+                                    <h2 className="text-2xl font-medium mb-4 text-smartshelf-text">
+                                        Quase pronto!
+                                    </h2>
+                                    <p className="text-lg text-subtitle-gray mb-8">
+                                        Configurando suas preferências...
+                                    </p>
+                                </div>
+                            )}
+                            
+                            {step === 3 && (
+                                <div>
+                                    <h2 className="text-2xl font-medium mb-4 text-smartshelf-text">
+                                        Tudo configurado!
+                                    </h2>
+                                    <p className="text-lg text-subtitle-gray mb-8">
+                                        Você está pronto para começar a usar o SmartShelf
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex justify-center space-x-4">
+                            <button
+                                onClick={handleSkip}
+                                className="px-8 py-3 text-subtitle-gray hover:text-smartshelf-text transition-colors bg-transparent border-none cursor-pointer font-fustat"
+                            >
+                                Pular
+                            </button>
+                            <button
+                                onClick={handleNext}
+                                className="custom-button"
+                            >
+                                {step === 3 ? 'Começar' : 'Próximo'}
+                            </button>
+                        </div>
+
+                        {/* Progress indicator */}
+                        <div className="flex justify-center mt-8 space-x-2">
+                            {[1, 2, 3].map((i) => (
+                                <div
+                                    key={i}
+                                    className={`w-3 h-3 rounded-full ${
+                                        i <= step ? 'bg-smartshelf-blue' : 'bg-gray-300'
+                                    }`}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // AI Chat Interface Component
+        function ChatInterface() {
+            const [inputValue, setInputValue] = useState('');
+
+            const sidebarIcons = [
+                { icon: Columns2, label: 'Expandir menu' },
+                { icon: Plus, label: 'Novo chat' },
+                { icon: MessageSquareText, label: 'Histórico' },
+                { icon: FolderCheck, label: 'Projetos' },
+                { icon: Settings, label: 'Configurações' },
+                { icon: User, label: 'Perfil' }
+            ];
+
+            const notesData = [
+                {
+                    time: 'Há 5 min.',
+                    content: 'A análise do fluxo de Onboarding mostra abandono na etapa com a seleção das opções. Hipótese: talvez falte clareza para que o usuário siga as opções. Acho que se repensar a estratégia e reformular a usabilidade com tooltips e toast de apoio pode ajudar.'
+                },
+                {
+                    time: 'Há 45 min.',
+                    content: 'O Mapa de Calor aponta certa dispersão no Call to Action primário. Parece que o layout atual distribui muito a atenção entre os outros elementos não acionáveis. Acho que se reavaliar a hierarquia visual e simplificar o fluxo de decisão pode melhorar :)'
+                }
+            ];
+
+            return (
+                <div className="min-h-screen flex bg-white relative">
+                    {/* Sidebar Esquerda */}
+                    <div className="w-[60px] bg-smartshelf-blue flex flex-col justify-between items-center py-6">
+                        {/* Ícones superiores */}
+                        <div className="flex flex-col items-center space-y-8">
+                            {sidebarIcons.slice(0, -1).map((item, index) => (
+                                <button
+                                    key={index}
+                                    className="text-white hover:opacity-75 transition-opacity duration-200"
+                                    title={item.label}
+                                >
+                                    <item.icon size={24} strokeWidth={1.5} />
+                                </button>
+                            ))}
+                        </div>
+                        
+                        {/* Ícone User na parte inferior */}
+                        <div className="pb-8">
+                            <button
+                                className="text-white hover:opacity-75 transition-opacity duration-200"
+                                title={sidebarIcons[sidebarIcons.length - 1].label}
+                            >
+                                <User size={24} strokeWidth={1.5} />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Área Central */}
+                    <div className="flex-1 flex flex-col max-w-[940px] ml-20">
+                        {/* Header */}
+                        <div className="pt-16 pl-2 pb-12">
+                            <div className="flex items-center text-smartshelf-text font-fustat font-light text-3xl">
+                                <span>Assunto: Experiência Profissional</span>
+                                <ChevronDown size={20} className="ml-2" />
+                            </div>
+                        </div>
+
+                        {/* Área de Mensagens */}
+                        <div className="flex-1 py-2 px-2 overflow-y-auto">
+                            <div className="space-y-6">
+                                {/* Mensagem do Usuário */}
+                                <div className="message-bubble">
+                                    <div className="flex gap-3">
+                                        <div className="avatar">D</div>
+                                        <div className="text-smartshelf-text leading-relaxed text-lg">
+                                            <p>
+                                                Oi! Preciso de ajuda para descrever um projeto no meu currículo. 
+                                                Você lembra daquele trabalho de 2022—2023 no cliente automotivo, onde apliquei <strong>Design Thinking</strong> para resolver gargalos operacionais? Queria organizar melhor as informações para destacar o impacto que geramos.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Resposta do Sistema */}
+                                <div className="bg-white relative">
+                                    <div className="text-smartshelf-text leading-relaxed space-y-4 text-lg">
+                                        <p>
+                                            <strong>Claro!</strong> Você está se referindo àquele projeto estratégico no setor automotivo, onde você liderou duas frentes bem impactantes.
+                                        </p>
+                                        
+                                        <p>
+                                            No primeiro projeto, você desenvolveu um aplicativo de agendamento de manutenção aplicando <strong>Design Thinking</strong>, Service Design e UX Research, tudo integrado a um Design System robusto. O resultado foi surpreendente: avaliações majoritariamente cinco estrelas e crescimento significativo nos agendamentos online já no primeiro mês, impactando a experiência de clientes em múltiplos países da América Latina e Ásia.
+                                        </p>
+                                        
+                                        <p>
+                                            Paralelamente, você modernizou uma Plataforma de Gestão para Concessionárias, reestruturando processos através de Service Blueprints e Arquitetura da Informação. Os números foram expressivos: redução considerável no tempo de atendimento e espera, além de uma aceleração substancial nas rotinas operacionais. No geral, a performance da plataforma teve um crescimento muito relevante. Foi um trabalho que realmente consolidou um novo padrão de excelência no setor, combinando estratégia de negócios com design centrado no usuário de forma bem elegante.
+                                        </p>
+                                    </div>
+                                    
+                                    <button className="absolute bottom-0 right-0 text-gray-400 hover:text-gray-600 transition-colors">
+                                        <Copy size={20} />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Input Area */}
+                        <div className="p-8 py-16 px-2">
+                            <div className="chat-input-area">
+                                {/* Parte Superior - Placeholder */}
+                                <div className="flex-1 flex items-start">
+                                    <input
+                                        value={inputValue}
+                                        onChange={(e) => setInputValue(e.target.value)}
+                                        placeholder="Olá, em que posso ajudar?"
+                                        className="chat-input"
+                                    />
+                                </div>
+                                
+                                {/* Parte Inferior - Controles */}
+                                <div className="flex items-center justify-between">
+                                    <button className="text-gray-500 hover:text-gray-700 transition-colors bg-transparent border-none cursor-pointer">
+                                        <Plus size={24} />
+                                    </button>
+                                    
+                                    <div className="flex items-center space-x-4">
+                                        <div className="flex items-center space-x-2 font-fustat font-normal text-lg text-gray-600">
+                                            <span>AI Model</span>
+                                            <ChevronDown size={16} />
+                                        </div>
+                                        
+                                        <button
+                                            className="send-button"
+                                            disabled={!inputValue.trim()}
+                                        >
+                                            <ArrowUp size={20} />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Painel Lateral Direito */}
+                    <div className="w-[460px] bg-smartshelf-blue fixed right-0 top-0 h-screen">
+                        {/* Header Notas Rápidas */}
+                        <div className="bg-smartshelf-blue text-white px-6 py-4 flex items-center justify-between mt-16">
+                            <span className="font-fustat font-light text-2xl">Notas rápidas</span>
+                            <ArrowRight size={20} />
+                        </div>
+
+                        {/* Cards de Nota */}
+                        <div className="flex flex-col">
+                            {notesData.map((note, index) => (
+                                <div key={index}>
+                                    <div className="note-card">
+                                        <div className="font-fustat font-medium mb-4 text-sm text-gray-400">
+                                            {note.time}
+                                        </div>
+                                        <div className="font-fustat font-normal leading-relaxed flex-1 text-base text-gray-600">
+                                            {note.content}
+                                        </div>
+                                    </div>
+                                    {/* Linha divisória horizontal entre cards */}
+                                    {index < notesData.length - 1 && (
+                                        <div className="h-px bg-white/20"></div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Botão Adicionar Nota - Fixo no Footer */}
+                        <div className="fixed bottom-0 right-0 w-[460px] p-4 bg-smartshelf-blue">
+                            <button className="w-full bg-smartshelf-blue hover:opacity-90 text-white border-none font-fustat font-normal text-lg py-3 px-6 rounded cursor-pointer transition-opacity">
+                                + Adicionar Nota
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Main App Component
+        function App() {
+            const [appState, setAppState] = useState('login');
+
+            const handleLogin = () => {
+                setAppState('onboarding');
+            };
+
+            const handleOnboardingComplete = () => {
+                setAppState('main');
+            };
+
+            if (appState === 'login') {
+                return <LoginScreen onLogin={handleLogin} />;
+            }
+
+            if (appState === 'onboarding') {
+                return <OnboardingContainer onComplete={handleOnboardingComplete} />;
+            }
+
+            return <ChatInterface />;
+        }
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
