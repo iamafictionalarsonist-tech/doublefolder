@@ -1,0 +1,182 @@
+<!-- Combined Login/Signup + AI Chat Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartShelf – Login & Chat</title>
+
+  <!-- Tailwind via CDN (v3.x) -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
+  <!-- Custom CSS variables borrowed from original projects -->
+  <style>
+    :root {
+      /* Colors (keep in sync with tailwind.config.ts custom properties) */
+      --smartshelf-blue: 215 84% 40%;
+      --smartshelf-light-bg: 0 0% 94%;
+      --smartshelf-text: 210 10% 20%;
+    }
+    /* Hide scroll‐bars in ScrollArea substitute */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* Fustat font fallback */
+    @font-face {
+      font-family: "Fustat";
+      src: local("Helvetica"), local("Arial");
+    }
+    body { font-family: "Fustat", sans-serif; }
+  </style>
+</head>
+
+<body class="min-h-screen w-screen bg-white">
+  <!-- ======================= LOGIN / SIGN-UP SECTION ======================= -->
+  <section id="auth-section" class="w-full h-screen flex">
+    <!-- Left side description -->
+    <div class="hidden md:flex w-1/2 flex-col px-20 pt-24 relative bg-background">
+      <h1 class="text-5xl md:text-6xl text-[hsl(var(--smartshelf-text))] mb-7 font-normal leading-snug">
+        SmartShelf.<br />Seu organizador<br />inteligente para<br />dados pessoais
+      </h1>
+      <p class="text-lg text-gray-500 font-medium max-w-md">
+        Ferramenta de organização pessoal, com inteligência que te entende
+      </p>
+      <p class="absolute bottom-6 text-gray-400 font-medium">Vibe Coding Week 2025 — Cognizant</p>
+    </div>
+
+    <!-- Right side form -->
+    <div class="w-full md:w-1/2 flex items-center justify-center bg-cover bg-center" style="background-image:url('/lovable-uploads/6ba148c4-fc42-41cb-9443-d11ca20b94d8.png')">
+      <div class="w-full max-w-sm px-8 py-12 bg-white/70 backdrop-blur rounded-xl shadow">
+        <h2 class="text-2xl font-semibold text-center mb-6">Entre na sua conta</h2>
+        <form id="login-form" class="space-y-6">
+          <div>
+            <label class="block text-gray-700 mb-1" for="email">E-mail ou ID</label>
+            <input id="email" type="email" required placeholder="Digite seu e-mail" class="w-full h-12 px-4 rounded-full border focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-1" for="password">Senha</label>
+            <input id="password" type="password" required placeholder="Digite sua senha" class="w-full h-12 px-4 rounded-full border focus:outline-none" />
+          </div>
+          <button type="submit" class="w-full h-14 rounded-full bg-[hsl(var(--smartshelf-blue))] hover:opacity-90 text-white font-medium">Entrar →</button>
+          <button type="button" class="w-full text-center text-sm text-gray-600 hover:underline mt-2">Esqueceu sua senha?</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= AI CHAT SECTION (initially hidden) ======================= -->
+  <section id="chat-section" class="hidden min-h-screen flex bg-white relative">
+    <!-- Sidebar Left -->
+    <div class="w-16 bg-[hsl(var(--smartshelf-blue))] flex flex-col justify-between items-center py-6 text-white">
+      <div class="flex flex-col items-center gap-8">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-columns-2"><path d="M4 6v14"></path><path d="M9.5 6v14"></path><path d="M15 6v14"></path><path d="M20.5 6v14"></path><path d="M3 6h19"></path><path d="M3 10h19"></path><path d="M3 14h19"></path><path d="M3 18h19"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-text"><path d="M21 15a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h4l4 4 4-4h6z"></path></svg>
+        <!-- add more icons as needed -->
+      </div>
+      <div class="pb-8">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M4 21v-2a4 4 0 0 1 3-3.87"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </div>
+    </div>
+
+    <!-- Main chat area -->
+    <div class="flex-1 flex flex-col max-w-3xl ml-20">
+      <!-- Header -->
+      <header class="pt-16 pl-2 pb-12 text-[hsl(var(--smartshelf-text))] text-3xl font-light flex items-center gap-2">
+        <span>Assunto: Experiência Profissional</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </header>
+
+      <!-- Messages container -->
+      <div class="flex-1 overflow-y-auto px-2 no-scrollbar space-y-6">
+        <!-- User message -->
+        <div class="bg-[hsl(var(--smartshelf-light-bg))] rounded-xl p-6 flex gap-3">
+          <div class="w-8 h-8 rounded-full bg-[hsl(var(--smartshelf-blue))] text-white flex items-center justify-center text-sm font-medium flex-shrink-0">D</div>
+          <p class="leading-relaxed text-lg text-[hsl(var(--smartshelf-text))]">
+            Oi! Preciso de ajuda para descrever um projeto no meu currículo. Você lembra daquele trabalho de 2022—2023 no cliente automotivo, onde apliquei <strong>Design Thinking</strong> para resolver gargalos operacionais? Queria organizar melhor as informações para destacar o impacto que geramos.
+          </p>
+        </div>
+
+        <!-- System message -->
+        <div class="relative">
+          <div class="leading-relaxed space-y-4 text-lg text-[hsl(var(--smartshelf-text))] bg-white p-6 rounded-xl shadow">
+            <p><strong>Claro!</strong> Você está se referindo àquele projeto estratégico no setor automotivo, onde você liderou duas frentes bem impactantes.</p>
+            <p>No primeiro projeto, você desenvolveu um aplicativo de agendamento de manutenção aplicando <strong>Design Thinking</strong>, Service Design e UX Research, tudo integrado a um Design System robusto. O resultado foi surpreendente: avaliações majoritariamente cinco estrelas e crescimento significativo nos agendamentos online já no primeiro mês, impactando a experiência de clientes em múltiplos países da América Latina e Ásia.</p>
+            <p>Paralelamente, você modernizou uma Plataforma de Gestão para Concessionárias, reestruturando processos através de Service Blueprints e Arquitetura da Informação. Os números foram expressivos: redução considerável no tempo de atendimento e espera, além de uma aceleração substancial nas rotinas operacionais. No geral, a performance da plataforma teve um crescimento muito relevante. Foi um trabalho que realmente consolidou um novo padrão de excelência no setor, combinando estratégia de negócios com design centrado no usuário de forma bem elegante.</p>
+          </div>
+          <button class="absolute bottom-4 right-4 text-gray-400 hover:text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Input area -->
+      <div class="px-2 py-16">
+        <div class="w-full h-40 bg-gray-100 rounded-3xl flex flex-col justify-between p-6">
+          <input id="chat-input" placeholder="Olá, em que posso ajudar?" class="flex-1 bg-transparent outline-none text-lg placeholder-gray-500" />
+          <div class="flex items-center justify-between mt-4">
+            <button class="text-gray-500 hover:text-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+            </button>
+            <div class="flex items-center gap-4">
+              <div class="flex items-center gap-1 text-gray-700 text-base">
+                <span>AI Model</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <button id="send-btn" class="w-10 h-10 rounded-full bg-[hsl(var(--smartshelf-blue))] hover:opacity-90 flex items-center justify-center" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up"><path d="M12 19V5"></path><path d="M5 12l7-7 7 7"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side panel -->
+    <aside class="w-[460px] bg-[#2F78C4] fixed right-0 top-0 h-screen text-white flex flex-col">
+      <div class="mt-16 px-6 py-4 flex justify-between items-center">
+        <span class="text-2xl font-light">Notas rápidas</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+      </div>
+      <div class="flex-1 overflow-y-auto no-scrollbar divide-y divide-white/20">
+        <div class="h-[235px] bg-white p-6 cursor-pointer">
+          <div class="text-gray-400 mb-4">Há 5 min.</div>
+          <p class="text-gray-700 leading-relaxed text-base">A análise do fluxo de Onboarding mostra abandono na etapa com a seleção das opções. Hipótese: talvez falte clareza para que o usuário siga as opções. Acho que se repensar a estratégia e reformular a usabilidade com tooltips e toast de apoio pode ajudar.</p>
+        </div>
+        <div class="h-[235px] bg-white p-6 cursor-pointer">
+          <div class="text-gray-400 mb-4">Há 45 min.</div>
+          <p class="text-gray-700 leading-relaxed text-base">O Mapa de Calor aponta certa dispersão no Call to Action primário. Parece que o layout atual distribui muito a atenção entre os outros elementos não acionáveis. Acho que se reavaliar a hierarquia visual e simplificar o fluxo de decisão pode melhorar :)</p>
+        </div>
+      </div>
+      <div class="p-4">
+        <button class="w-full py-3 bg-[#2F78C4] hover:bg-[#2F78C4]/90 border border-white/30 rounded text-white text-lg">+ Adicionar Nota</button>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ======================= SIMPLE STATE HANDLER ======================= -->
+  <script>
+    const loginForm = document.getElementById('login-form');
+    const emailEl = document.getElementById('email');
+    const passwordEl = document.getElementById('password');
+    const authSection = document.getElementById('auth-section');
+    const chatSection = document.getElementById('chat-section');
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // Fake authentication: if fields not empty, grant access
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (emailEl.value.trim() && passwordEl.value.trim()) {
+        authSection.classList.add('hidden');
+        chatSection.classList.remove('hidden');
+        chatInput.focus();
+      }
+    });
+
+    // Enable/disable send button
+    chatInput.addEventListener('input', () => {
+      sendBtn.disabled = !chatInput.value.trim();
+    });
+  </script>
+</body>
+</html>
