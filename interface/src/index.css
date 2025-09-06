@@ -9,8 +9,7 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 100%;
-    /* Preto tipográfico: #333333 */
-    --foreground: 0 0% 20%;
+    --foreground: 222.2 84% 4.9%;
 
     /* SmartShelf specific colors */
     --smartshelf-blue: 207 60% 47%;  /* #2F78C4 */
@@ -20,33 +19,16 @@ All colors MUST be HSL.
     --smartshelf-input-bg: 0 0% 98%; /* #FAFAFA */
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 20%;
+    --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 20%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    /* SmartShelf Primary: Azul moderno #2F78C4 */
-    --primary: 209 63% 47%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
 
-    /* Cinza complementar: #E6E6E6 */
-    --secondary: 0 0% 90%;
-    --secondary-foreground: 0 0% 20%;
-
-    /* Subtítulo cinza: #808080 */
-    --subtitle-gray: 0 0% 50%;
-    
-    /* Texto primário: #333333 */
-    --text-primary: 0 0% 20%;
-    
-    /* Texto cinza escuro para botões: #333333 */
-    --button-text-dark: 0 0% 20%;
-    
-    /* Background dos inputs: #333333 */
-    --input-background: 0 0% 20%;
-    
-    /* Background dos termos: #EFEFEF */
-    --terms-background: 0 0% 94%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -61,7 +43,7 @@ All colors MUST be HSL.
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 2rem;
+    --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
 

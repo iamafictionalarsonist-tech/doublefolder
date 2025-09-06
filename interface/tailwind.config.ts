@@ -21,28 +21,6 @@ export default {
 			fontFamily: {
 				'fustat': ['Fustat', 'sans-serif'],
 			},
-			fontSize: {
-				'display': ['82px', { lineHeight: '80px', fontWeight: '450' }],
-				'subtitle': ['22px', { lineHeight: '78px', fontWeight: '500' }],
-				'button-title': ['30px', { fontWeight: '500' }],
-				'button-text': ['17px', { fontWeight: '500' }],
-				'cta-button': ['22px', { fontWeight: '500' }],
-			},
-			spacing: {
-				'28': '28px',
-				'60': '60px',
-				'82': '82px',
-				'100': '100px',
-				'110': '110px',
-				'360': '360px',
-				'480': '480px',
-				'540': '540px',
-				'960': '960px',
-				'1080': '1080px',
-			},
-			backgroundImage: {
-				'gradient-button': 'linear-gradient(45deg, #FFFFFF, #EAEAEA)',
-			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -86,12 +64,7 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				},
-				'subtitle-gray': 'hsl(var(--subtitle-gray))',
-				'text-primary': 'hsl(var(--text-primary))',
-				'input-background': 'hsl(var(--input-background))',
-				'button-text-dark': 'hsl(var(--button-text-dark))',
-				'terms-background': 'hsl(var(--terms-background))'
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
