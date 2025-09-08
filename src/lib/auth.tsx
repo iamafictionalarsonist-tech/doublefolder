@@ -7,6 +7,7 @@ interface AuthContextValue {
   login: () => void;
   completeOnboarding: () => void;
   logout: () => void;
+  clearAuth: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -18,6 +19,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem("auth_stage");
     if (saved === "authenticated" || saved === "onboarding" || saved === "logged_out") {
       setStage(saved);
+    } else {
+      // If no valid saved state, ensure we start from logged_out
+      localStorage.setItem("auth_stage", "logged_out");
     }
   }, []);
 
@@ -29,7 +33,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     stage,
     login: () => setStage("onboarding"),
     completeOnboarding: () => setStage("authenticated"),
-    logout: () => setStage("logged_out"),
+    logout: () => {
+      setStage("logged_out");
+      localStorage.setItem("auth_stage", "logged_out");
+    },
+    clearAuth: () => {
+      localStorage.removeItem("auth_stage");
+      setStage("logged_out");
+    },
   }), [stage]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

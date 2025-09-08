@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Columns2, Plus, MessageSquareText, FolderCheck, Settings, User, ChevronDown, Copy, ArrowUp, ArrowRight } from 'lucide-react';
+import { Columns2, Plus, MessageSquareText, FolderCheck, Settings, User, ChevronDown, Copy, ArrowUp, ArrowRight, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useAuth } from '@/lib/auth';
 const Index = () => {
   const [inputValue, setInputValue] = useState('');
+  const { logout, clearAuth } = useAuth();
   const sidebarIcons = [{
     icon: Columns2,
     label: 'Expandir menu'
@@ -42,10 +44,17 @@ const Index = () => {
             </button>)}
         </div>
         
-        {/* Ícone User na parte inferior */}
-        <div className="pb-8">
+        {/* Ícone User e Logout na parte inferior */}
+        <div className="pb-8 flex flex-col space-y-4">
           <button className="text-white hover:opacity-75 transition-opacity duration-200 group relative" title={sidebarIcons[sidebarIcons.length - 1].label}>
             <User size={24} strokeWidth={1.5} />
+          </button>
+          <button 
+            onClick={logout}
+            className="text-white hover:opacity-75 transition-opacity duration-200 group relative" 
+            title="Logout"
+          >
+            <LogOut size={24} strokeWidth={1.5} />
           </button>
         </div>
       </div>
@@ -54,9 +63,20 @@ const Index = () => {
       <div className="flex-1 flex flex-col max-w-[940px] ml-20">
         {/* Header */}
         <div className="pt-[66px] pl-[8px] pb-[48px]">
-          <div className="flex items-center text-[hsl(var(--smartshelf-text))] font-fustat font-light text-[32px]">
-            <span>Assunto: Experiência Profissional</span>
-            <ChevronDown size={20} className="ml-2" />
+          <div className="flex items-center justify-between text-[hsl(var(--smartshelf-text))] font-fustat font-light text-[32px]">
+            <div className="flex items-center">
+              <span>Assunto: Experiência Profissional</span>
+              <ChevronDown size={20} className="ml-2" />
+            </div>
+            {/* Development button - remove in production */}
+            <Button 
+              onClick={clearAuth}
+              variant="outline" 
+              size="sm"
+              className="text-xs"
+            >
+              Clear Auth (Dev)
+            </Button>
           </div>
         </div>
 
