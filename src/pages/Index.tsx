@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useAuth } from "@/lib/auth";
+
 const Index = () => {
   const [inputValue, setInputValue] = useState('');
   const sidebarIcons = [{
@@ -25,6 +27,8 @@ const Index = () => {
     icon: User,
     label: 'Perfil'
   }];
+  const { logout } = useAuth();
+
   const notesData = [{
     time: 'Há 5 min.',
     content: 'A análise do fluxo de Onboarding mostra abandono na etapa com a seleção das opções. Hipótese: talvez falte clareza para que o usuário siga as opções. Acho que se repensar a estratégia e reformular a usabilidade com tooltips e toast de apoio pode ajudar.'
@@ -44,7 +48,7 @@ const Index = () => {
         
         {/* Ícone User na parte inferior */}
         <div className="pb-8">
-          <button className="text-white hover:opacity-75 transition-opacity duration-200 group relative" title={sidebarIcons[sidebarIcons.length - 1].label}>
+          <button onClick={logout} className="text-white hover:opacity-75 transition-opacity duration-200 group relative" title="Sair">
             <User size={24} strokeWidth={1.5} />
           </button>
         </div>
