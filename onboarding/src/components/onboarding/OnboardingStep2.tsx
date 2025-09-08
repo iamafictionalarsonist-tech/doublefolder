@@ -126,4 +126,3 @@ export default function OnboardingStep2({ selectedVolume, onVolumeSelect, onConf
     </div>
   );
 }
-

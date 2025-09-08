@@ -118,4 +118,3 @@ export default function OnboardingStep1({
       </div>
     </div>;
 }
-

@@ -78,4 +78,3 @@ export default function OnboardingContainer({ onComplete }: OnboardingContainerP
       return null;
   }
 }
-

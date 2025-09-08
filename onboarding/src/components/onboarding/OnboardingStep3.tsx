@@ -126,4 +126,3 @@ export default function OnboardingStep3({ selectedCommunication, onCommunication
     </div>
   );
 }
-

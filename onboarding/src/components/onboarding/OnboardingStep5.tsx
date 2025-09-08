@@ -143,4 +143,3 @@ export default function OnboardingStep5({ onConfirm, onSkip, onStepSelect }: Onb
     </div>
   );
 }
-
