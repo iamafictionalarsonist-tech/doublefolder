@@ -124,3 +124,70 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Responsive base additions */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  img,
+  svg,
+  video,
+  canvas,
+  audio,
+  iframe,
+  embed,
+  object {
+    max-width: 100%;
+    height: auto;
+  }
+
+  img {
+    display: block;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+    max-width: 100%;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+}
+
+/* Responsive containers and utilities */
+.container-responsive {
+  width: min(100% - 2rem, 1200px);
+  margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .container-responsive {
+    width: min(100% - 3rem, 1200px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    width: min(100% - 4rem, 1200px);
+  }
+}
+
+/* Small-screen adjustments */
+@media (max-width: 640px) {
+  #root {
+    padding: 1rem;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
