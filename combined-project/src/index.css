@@ -124,3 +124,39 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  /* Chat layout responsivo (mesma base da interface isolada) */
+  @media (max-width: 1280px) {
+    .max-w-\[940px\] { max-width: 100% !important; }
+  }
+
+  @media (max-width: 1024px) {
+    .ml-20 { margin-left: 1rem !important; }
+    .w-\[960px\] { width: 100% !important; }
+
+    /* Painel lateral direito (Notas rápidas) some em telas médias/pequenas */
+    .w-\[460px\] { display: none !important; }
+
+    /* Onboarding grids: 2 colunas -> 1 coluna */
+    .grid-cols-2 { grid-template-columns: 1fr !important; }
+
+    /* Empilhar colunas em telas menores quando houver layout 50/50 */
+    .h-full.flex { flex-direction: column !important; }
+    .w-1\/2 { width: 100% !important; }
+
+    /* Redução de espaçamentos grandes */
+    .pt-110 { padding-top: 2rem !important; }
+    .pt-100 { padding-top: 2rem !important; }
+    .px-82 { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+  }
+
+  @media (max-width: 640px) {
+    .pt-\[66px\] { padding-top: 1rem !important; }
+    .pb-\[48px\] { padding-bottom: 1rem !important; }
+    .text-\[32px\] { font-size: 1.25rem !important; line-height: 1.75rem !important; }
+    .left-82 { left: 1rem !important; }
+    .bottom-100 { bottom: 1rem !important; }
+    .px-\[140px\] { padding-left: 1rem !important; padding-right: 1rem !important; }
+  }
+}

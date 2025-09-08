@@ -110,3 +110,44 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  /* Breakpoints responsivos para a interface principal */
+  @media (max-width: 1280px) {
+    .max-w-\[940px\] {
+      max-width: 100% !important;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    /* Área central ocupa toda a largura disponível */
+    .ml-20 {
+      margin-left: 1rem !important;
+    }
+
+    .w-\[960px\] {
+      width: 100% !important;
+    }
+
+    /* Oculta painel lateral direito (Notas rápidas) em telas médias/pequenas */
+    .w-\[460px\] {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    /* Ajustes finos de espaçamento e tipografia no header */
+    .pt-\[66px\] {
+      padding-top: 1rem !important;
+    }
+
+    .pb-\[48px\] {
+      padding-bottom: 1rem !important;
+    }
+
+    .text-\[32px\] {
+      font-size: 1.25rem !important;
+      line-height: 1.75rem !important;
+    }
+  }
+}
