@@ -12,13 +12,12 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  // Always start with logged_out to ensure proper flow demonstration
   const [stage, setStage] = useState<AuthStage>("logged_out");
 
   useEffect(() => {
-    const saved = localStorage.getItem("auth_stage");
-    if (saved === "authenticated" || saved === "onboarding" || saved === "logged_out") {
-      setStage(saved);
-    }
+    // Clear any existing auth state to ensure fresh start
+    localStorage.removeItem("auth_stage");
   }, []);
 
   useEffect(() => {

@@ -51,6 +51,7 @@ export default function LoginScreen({
       backgroundRepeat: 'no-repeat'
     }}>
         <div className="w-full max-w-sm p-8 flex flex-col items-center my-0 py-[32px]">
+          <h2 className="text-white text-2xl font-fustat font-medium mb-6 text-center">Bem-vindo! Faça login para continuar</h2>
           <form onSubmit={handleSubmit} className="space-y-6 my-0 py-[10px]">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-white font-fustat font-medium" style={{
