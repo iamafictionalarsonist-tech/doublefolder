@@ -1,0 +1,160 @@
+/* Responsive utilities and custom media queries */
+
+/* Custom breakpoints for better control */
+@media (max-width: 639px) {
+  /* Mobile styles */
+  
+  /* Adjust text sizes for better mobile readability */
+  .text-display {
+    font-size: 2rem !important;
+    line-height: 2.5rem !important;
+  }
+  
+  .text-subtitle {
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+  }
+  
+  /* Ensure proper spacing on mobile */
+  .px-82 {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+  
+  .pt-100 {
+    padding-top: 3rem !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  /* Tablet styles */
+  
+  .text-display {
+    font-size: 3rem !important;
+    line-height: 3.5rem !important;
+  }
+  
+  .text-subtitle {
+    font-size: 1.25rem !important;
+    line-height: 1.75rem !important;
+  }
+}
+
+/* Enhanced mobile navigation */
+@media (max-width: 1023px) {
+  /* Mobile/Tablet sidebar as top bar */
+  .sidebar-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4rem;
+    background: hsl(var(--smartshelf-blue));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    z-index: 50;
+  }
+  
+  /* Adjust main content to account for mobile header */
+  .content-with-mobile-header {
+    margin-top: 4rem;
+  }
+}
+
+/* Input area responsiveness */
+@media (max-width: 639px) {
+  /* Make input area more compact on mobile */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+}
+
+/* Grid layout adjustments */
+@media (max-width: 639px) {
+  /* Stack grid items on mobile */
+  .grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Scrollable areas on mobile */
+@media (max-width: 1023px) {
+  /* Ensure proper scrolling on mobile */
+  .h-screen {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+  
+  .w-screen {
+    width: 100vw;
+    max-width: 100%;
+  }
+}
+
+/* Touch-friendly interactive elements */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets for mobile */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  button:hover,
+  a:hover {
+    opacity: 1 !important;
+  }
+}
+
+/* Landscape mode adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+  /* Reduce vertical spacing in landscape */
+  .py-[120px] {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  .mb-28 {
+    margin-bottom: 1rem !important;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Ensure sharp text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Print styles */
+@media print {
+  /* Hide navigation and controls for printing */
+  .sidebar-mobile,
+  .fixed,
+  button {
+    display: none !important;
+  }
+  
+  /* Ensure content is printable */
+  .bg-background {
+    background: white !important;
+  }
+  
+  .text-text-primary {
+    color: black !important;
+  }
+}
